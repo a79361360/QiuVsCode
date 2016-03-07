@@ -1,0 +1,45 @@
+##添加JS自定义方法(非Jquery)
+```javascript
+	(function (window) {
+
+		var Utils = {
+
+			//TODO 判断两个JSON是否相等
+			equals: function (param, param2) {
+				return JSON.stringify(param) === JSON.stringify(param2);
+			},
+
+			//TODO 获取当前项在数组出现的个数
+			getCountByItem: function (objects, item) {
+				var count = 0;
+				for (var i = 0; i < objects.length; i++) {
+					if (this.equals(objects[i], item)) {
+						count++;
+					}
+				}
+				return count;
+			},
+			//TODO 获取两个数组交集的项列表，支持List<object> 代码格式：[{}]
+			getRepeatItems: function (objects, objects2) {
+				var tempObjects = objects.concat(objects2);
+				var repeatItems = [];
+				for (var i = 0; i < tempObjects.length; i++) {
+					var itemCount = this.getCountByItem(tempObjects, tempObjects[i]);
+					if (itemCount > 1) {
+						repeatItems.push(tempObjects[i]);
+						tempObjects[i] = null;
+					}
+				}
+				return repeatItems;
+			}
+
+		};
+
+		window.Utils = Utils;
+
+	})(window);	
+	var list1 = new Array(1, 2, 3, 4, 5, 6, 7, 8);
+	var list2 = new Array(1, 9, 13, 4, 5, 26, 4, 8);
+	var cou = window.Utils.getRepeatItems(list1, list2);
+	alert(cou)
+```
